@@ -199,29 +199,46 @@ void Plansza::ZnajdzTrase(Punkt *punkt, std::vector<std::pair<int, int>> &droga)
 	}
 }
 template <typename T>
-void Paruj(std::vector<std::pair<T, T>> const &in)
+void Paruj(std::vector<std::pair<T, T>> const &in, sf::RectangleShape **shape)
 {
+	int a = 0;
+	int b = 0;
 	std::ofstream file;
 	file.open("wyjscie.txt");
+
 	if (file.is_open())
 	{
-
+		file << "tak ";
 		int i = in.size();
-
+		int c = 0;
 		for (auto const &p : in)
 		{
-			if (p.first > p.third)
-				file << "L ";
-			else if (p.first < p.third)
-				file << "P ";
-			else if (p.second > p.fourth)
-				file << "G ";
-			else if (p.second < p.fourth)
-				file << "D ";
-			else if (--i)
+			if (c == 0)
 			{
-				file << ", " << ;
+				a = p.first;
+				b = p.second;
+				c++;
 			}
+
+			else
+			{
+				if (p.first > a)
+					file << "D ";
+				if (p.first < a)
+					file << "G ";
+				if (p.second > b)
+					file << "P ";
+				if (p.second < b)
+					file << "L ";
+				if (--i)
+				{
+					file << ", ";
+				}
+			}
+			a = p.first;
+			b = p.second;
+			shape[a][b].setFillColor(sf::Color(255, 0, 0, 255));
+			std::cout << '(' << a << ", " << b << ')';
 		}
 		file.close();
 	}
@@ -265,15 +282,23 @@ void Plansza::Trasa()
 	std::cout << "Najkrotsza droga wynosi: " << temp << std::endl;
 	std::cout << "Poczatek: " << a << ", 0" << std::endl;
 	std::cout << "Koniec: " << b << ", " << m_ykolumny - 1 << std::endl;
-	std::vector<std::pair<int, int>> path = ZnajdzDroge(poczatekF, koniecF);
+	std::vector<std::pair<int, int>> path = ZnajdzDroge(poczatekF, koniecF, nullptr);
 
-	if (path.size() > 0)
+	std::ofstream file;
+	file.open("wyjscie.txt");
+	if (file.is_open())
 	{
-		std::cout << "Najkrotsza droga: ";
-		Paruj(path);
+		if (path.size() > 0)
+		{
+			file << "tak ";
+		}
+		else
+		{
+			std::cout << "Droga nie zostala znaleziona";
+			file << "nie ";
+		}
+		file.close();
 	}
 	else
-	{
-		std::cout << "Droga nie została znaleziona";
-	}
+		std::cout << "Nie udalo sie znalezc pliku ";
 }
