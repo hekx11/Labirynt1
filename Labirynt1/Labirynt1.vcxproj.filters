@@ -29,5 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="dane.txt" />
+    <Text Include="wyjscie.txt" />
   </ItemGroup>
 </Project>

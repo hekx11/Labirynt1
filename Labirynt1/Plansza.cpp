@@ -201,17 +201,26 @@ void Plansza::ZnajdzTrase(Punkt *punkt, std::vector<std::pair<int, int>> &droga)
 template <typename T>
 void Paruj(std::vector<std::pair<T, T>> const &in)
 {
-	std::ifstream file;
+	std::ofstream file;
 	file.open("wyjscie.txt");
 	if (file.is_open())
 	{
+
 		int i = in.size();
+
 		for (auto const &p : in)
 		{
-			file << '(' << p.first << ", " << p.second << ')';
-			if (--i)
+			if (p.first > p.third)
+				file << "L ";
+			else if (p.first < p.third)
+				file << "P ";
+			else if (p.second > p.fourth)
+				file << "G ";
+			else if (p.second < p.fourth)
+				file << "D ";
+			else if (--i)
 			{
-				file << ", ";
+				file << ", " << ;
 			}
 		}
 		file.close();
