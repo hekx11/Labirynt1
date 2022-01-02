@@ -7,7 +7,6 @@ class Plansza
 private:
 	int m_xkolumny;
 	int m_ykolumny;
-	sf::RectangleShape **shape;
 	std::string *m_tablica = new std::string[260];
 	std::string table[260];
 	int mat[260][260];
@@ -40,7 +39,6 @@ public:
 	std::vector<std::pair<int, int>> ZnajdzDroge(Punkt poczatek, Punkt koniec);
 	bool Sprawdz(int x, int y);
 	void ZnajdzTrase(Punkt *punkt, std::vector<std::pair<int, int>> &in);
-	template <typename T>
-	void Paruj(std::vector<std::pair<T, T>> const &in);
+	template <typename T>void Paruj(std::vector<std::pair<T, T>> const &in);
 	void Trasa();
 };

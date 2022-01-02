@@ -31,4 +31,7 @@
     <Text Include="dane.txt" />
     <Text Include="wyjscie.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>

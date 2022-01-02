@@ -60,14 +60,14 @@ void Plansza::Pobieranie() //pobieranie z pliku
 }
 void Plansza::Window() //wyswietlanie okna
 {
-	sf::RenderWindow window(sf::VideoMode(640, 480), "Labirynt"); //okno 640x480
+	sf::RenderWindow window(sf::VideoMode(m_xkolumny*11, m_ykolumny*11), "Labirynt"); //okno 640x480
 	int n = m_xkolumny;
 	int m = m_ykolumny;
 	sf::RectangleShape **shape;
 	shape = new sf::RectangleShape *[n];
 	for (int i = 0; i < n; i++)
 		shape[i] = new sf::RectangleShape[m];
-	int position_x = 0, position_y = 10; //pozycja pierwszego kwadracika
+	float position_x = 0, position_y = 10; //pozycja pierwszego kwadracika
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -89,7 +89,7 @@ void Plansza::Window() //wyswietlanie okna
 				}
 				else if (m_tablica[j][i] == 'D')
 				{
-					shape[i][j].setFillColor(sf::Color(255, 0, 0, 255));
+					shape[i][j].setFillColor(sf::Color(0, 255, 0, 255));
 				}
 				else
 				{
@@ -129,7 +129,6 @@ int Plansza::ZnajdzOdleglosc(Punkt poczatek, Punkt koniec)
 	std::queue<punktKolejki> kolejka;
 	punktKolejki a = {poczatek, 0};
 	kolejka.push(a);
-	int table[200][200];
 	while (!kolejka.empty())
 	{
 		punktKolejki aktualny = kolejka.front();
@@ -215,7 +214,7 @@ void Plansza::Paruj(std::vector<std::pair<T, T>> const &in)
 	if (file.is_open())
 	{
 		file << "tak ";
-		int i = in.size();
+		size_t i = in.size();
 		int c = 0;
 		for (auto const &p : in)
 		{
@@ -243,7 +242,7 @@ void Plansza::Paruj(std::vector<std::pair<T, T>> const &in)
 			}
 			a = p.first;
 			b = p.second;
-			m_tablica[a][b] = D;
+			m_tablica[a][b] = 'D';
 			std::cout << '(' << a << ", " << b << ')';
 		}
 		file.close();
