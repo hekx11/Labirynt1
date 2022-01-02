@@ -81,15 +81,21 @@ void Plansza::Window() //wyswietlanie okna
 		{
 			for (int j = 0; j < m; j++) //rysowanie kwadracikow po osi y
 			{
+
 				shape[i][j].setSize(sf::Vector2f(10, 10)); //rozmiar jednego kwadracika
 				if (m_tablica[j][i] == 'B')
 				{
 					shape[i][j].setFillColor(sf::Color(0, 0, 0, 255)); //kolor czarny kwadracika
 				}
+				else if (m_tablica[j][i] == 'D')
+				{
+					shape[i][j].setFillColor(sf::Color(255, 0, 0, 255));
+				}
 				else
 				{
 					shape[i][j].setFillColor(sf::Color(255, 255, 255, 255)); //kolor bialy kwadracika
 				}
+
 				shape[i][j].setPosition(position_x, position_y); //ustawienie pozycji kwadracika
 
 				window.draw(shape[i][j]); //rysowanie kwadracika na planszy
@@ -199,7 +205,7 @@ void Plansza::ZnajdzTrase(Punkt *punkt, std::vector<std::pair<int, int>> &droga)
 	}
 }
 template <typename T>
-void Paruj(std::vector<std::pair<T, T>> const &in, sf::RectangleShape **shape)
+void Plansza::Paruj(std::vector<std::pair<T, T>> const &in)
 {
 	int a = 0;
 	int b = 0;
@@ -237,7 +243,7 @@ void Paruj(std::vector<std::pair<T, T>> const &in, sf::RectangleShape **shape)
 			}
 			a = p.first;
 			b = p.second;
-			shape[a][b].setFillColor(sf::Color(255, 0, 0, 255));
+			m_tablica[a][b] = D;
 			std::cout << '(' << a << ", " << b << ')';
 		}
 		file.close();
@@ -282,15 +288,15 @@ void Plansza::Trasa()
 	std::cout << "Najkrotsza droga wynosi: " << temp << std::endl;
 	std::cout << "Poczatek: " << a << ", 0" << std::endl;
 	std::cout << "Koniec: " << b << ", " << m_ykolumny - 1 << std::endl;
-	std::vector<std::pair<int, int>> path = ZnajdzDroge(poczatekF, koniecF, nullptr);
-
+	koncowaDroga = ZnajdzDroge(poczatekF, koniecF);
 	std::ofstream file;
 	file.open("wyjscie.txt");
 	if (file.is_open())
 	{
-		if (path.size() > 0)
+		if (koncowaDroga.size() > 0)
 		{
 			file << "tak ";
+			Paruj(koncowaDroga);
 		}
 		else
 		{

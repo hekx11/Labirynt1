@@ -12,6 +12,7 @@ private:
 	std::string table[260];
 	int mat[260][260];
 	bool odwiedzone[260][260];
+	std::vector<std::pair<int, int>> koncowaDroga;
 
 	struct Punkt
 	{
@@ -38,6 +39,8 @@ public:
 	int ZnajdzOdleglosc(Punkt poczatek, Punkt koniec);
 	std::vector<std::pair<int, int>> ZnajdzDroge(Punkt poczatek, Punkt koniec);
 	bool Sprawdz(int x, int y);
-	void ZnajdzTrase(Punkt *punkt, std::vector<std::pair<int, int>> &in, sf::RectangleShape **shape);
+	void ZnajdzTrase(Punkt *punkt, std::vector<std::pair<int, int>> &in);
+	template <typename T>
+	void Paruj(std::vector<std::pair<T, T>> const &in);
 	void Trasa();
 };
