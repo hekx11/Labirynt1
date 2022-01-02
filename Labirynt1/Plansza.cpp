@@ -199,17 +199,25 @@ void Plansza::ZnajdzTrase(Punkt *punkt, std::vector<std::pair<int, int>> &droga)
 	}
 }
 template <typename T>
-void printPairs(std::vector<std::pair<T, T>> const &input)
+void Paruj(std::vector<std::pair<T, T>> const &in)
 {
-	int n = input.size();
-	for (auto const &p : input)
+	std::ifstream file;
+	file.open("wyjscie.txt");
+	if (file.is_open())
 	{
-		std::cout << '(' << p.first << ", " << p.second << ')';
-		if (--n)
+		int i = in.size();
+		for (auto const &p : in)
 		{
-			std::cout << ", ";
+			file << '(' << p.first << ", " << p.second << ')';
+			if (--i)
+			{
+				file << ", ";
+			}
 		}
+		file.close();
 	}
+	else
+		std::cout << "Nie udalo sie otworzyc pliku";
 }
 void Plansza::Trasa()
 {
@@ -252,11 +260,11 @@ void Plansza::Trasa()
 
 	if (path.size() > 0)
 	{
-		std::cout << "The shortest path is ";
-		printPairs(path);
+		std::cout << "Najkrotsza droga: ";
+		Paruj(path);
 	}
 	else
 	{
-		std::cout << "Destination not possible";
+		std::cout << "Droga nie została znaleziona";
 	}
 }
