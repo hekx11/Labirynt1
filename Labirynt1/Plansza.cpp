@@ -112,8 +112,8 @@ int Plansza::ZnajdzOdleglosc(Punkt poczatek, Punkt koniec)
 		Punkt wsp;	   //wspolrzedne punktu
 		int odleglosc; //odleglosc od poczatku
 	};
-	int nrWiersza[] = { -1, 0, 0, 1 };
-	int nrKolumn[] = { 0, -1, 1, 0 };
+	int nrWiersza[] = {-1, 0, 0, 1};
+	int nrKolumn[] = {0, -1, 1, 0};
 
 	if (!mat[poczatek.x][poczatek.y] || !mat[koniec.x][koniec.y])
 		return -1;
@@ -121,7 +121,7 @@ int Plansza::ZnajdzOdleglosc(Punkt poczatek, Punkt koniec)
 	memset(odwiedzone, false, sizeof odwiedzone);
 	odwiedzone[poczatek.x][poczatek.y] = true;
 	std::queue<punktKolejki> kolejka;
-	punktKolejki a = { poczatek, 0 };
+	punktKolejki a = {poczatek, 0};
 	kolejka.push(a);
 	int table[200][200];
 	while (!kolejka.empty())
@@ -138,7 +138,7 @@ int Plansza::ZnajdzOdleglosc(Punkt poczatek, Punkt koniec)
 			if (Sprawdz(wiersz, kolumna) && mat[wiersz][kolumna] && !odwiedzone[wiersz][kolumna])
 			{
 				odwiedzone[wiersz][kolumna] = true;
-				punktKolejki b = { {wiersz, kolumna,nullptr}, aktualny.odleglosc + 1 };
+				punktKolejki b = {{wiersz, kolumna, nullptr}, aktualny.odleglosc + 1};
 				kolejka.push(b);
 			}
 		}
@@ -148,26 +148,27 @@ int Plansza::ZnajdzOdleglosc(Punkt poczatek, Punkt koniec)
 std::vector<std::pair<int, int>> Plansza::ZnajdzDroge(Punkt poczatek, Punkt koniec)
 {
 	std::vector<std::pair<int, int>> droga;
-	int c=poczatek.x;
-	int d=poczatek.y;
+	int c = poczatek.x;
+	int d = poczatek.y;
 	int nrWiersza[] = {-1, 0, 0, 1};
 	int nrKolumn[] = {0, -1, 1, 0};
 	if (!mat[poczatek.x][poczatek.y] || !mat[koniec.x][koniec.y])
 		return droga;
 	memset(odwiedzone, false, sizeof odwiedzone);
 	odwiedzone[poczatek.x][poczatek.y] = true;
-	std::queue<Punkt*> kolejka;
-	Punkt* a = new Punkt(c, d, nullptr);
+	std::queue<Punkt *> kolejka;
+	Punkt *a = new Punkt(c, d, nullptr);
 	kolejka.push(a);
 	int e = 0;
 
 	while (!kolejka.empty())
 	{
-		Punkt* aktualny = kolejka.front();
+		Punkt *aktualny = kolejka.front();
 		kolejka.pop();
 		int a = aktualny->x;
 		int b = aktualny->y;
-		if (a == koniec.x && b == koniec.y) {
+		if (a == koniec.x && b == koniec.y)
+		{
 			ZnajdzTrase(aktualny, droga);
 			return droga;
 		}
@@ -178,11 +179,10 @@ std::vector<std::pair<int, int>> Plansza::ZnajdzDroge(Punkt poczatek, Punkt koni
 			if (Sprawdz(wiersz, kolumna) && mat[wiersz][kolumna] && !odwiedzone[wiersz][kolumna])
 			{
 				odwiedzone[wiersz][kolumna] = true;
-				Punkt* kolejny = new Punkt(wiersz, kolumna, aktualny);
+				Punkt *kolejny = new Punkt(wiersz, kolumna, aktualny);
 				kolejka.push(kolejny);
 			}
 		}
-		
 	}
 	return droga;
 }
@@ -190,34 +190,37 @@ bool Plansza::Sprawdz(int wiersze, int kolumny)
 {
 	return (wiersze >= 0) && (wiersze < m_xkolumny) && (kolumny >= 0) && (kolumny < m_ykolumny);
 }
-void Plansza::ZnajdzTrase(Punkt* punkt, std::vector<std::pair<int, int>>& droga)
+void Plansza::ZnajdzTrase(Punkt *punkt, std::vector<std::pair<int, int>> &droga)
 {
-	if (punkt != nullptr) {
+	if (punkt != nullptr)
+	{
 		ZnajdzTrase(punkt->parent, droga);
 		droga.push_back(std::make_pair(punkt->x, punkt->y));
 	}
 }
 template <typename T>
-void printPairs(std::vector<std::pair<T, T>> const& input)
+void printPairs(std::vector<std::pair<T, T>> const &input)
 {
 	int n = input.size();
-	for (auto const& p : input) {
+	for (auto const &p : input)
+	{
 		std::cout << '(' << p.first << ", " << p.second << ')';
-		if (--n) {
+		if (--n)
+		{
 			std::cout << ", ";
 		}
 	}
 }
 void Plansza::Trasa()
 {
-	int temp=0,a=0,b=0;
+	int temp = 0, a = 0, b = 0;
 	int dist[260][260];
 	for (int i = 0; i < m_ykolumny; i++)
 	{
 		for (int j = 0; j < m_ykolumny; j++)
 		{
-			Punkt poczatek = { 0, i ,nullptr };
-			Punkt koniec = { m_ykolumny - 1, j ,nullptr };
+			Punkt poczatek = {0, i, nullptr};
+			Punkt koniec = {m_ykolumny - 1, j, nullptr};
 			dist[i][j] = ZnajdzOdleglosc(poczatek, koniec);
 			if (dist[i][j] != -1)
 			{
@@ -231,28 +234,29 @@ void Plansza::Trasa()
 		for (int j = 0; j < m_ykolumny; j++)
 		{
 			if (dist[i][j] != -1)
-			if (dist[i][j] < temp)
-			{
-				temp = dist[i][j];
-				a = i;
-				b = j;
-			}
+				if (dist[i][j] < temp)
+				{
+					temp = dist[i][j];
+					a = i;
+					b = j;
+				}
 		}
 	}
-	Punkt poczatekF= { 0, a ,nullptr };
-	Punkt koniecF = { m_ykolumny - 1, b ,nullptr };
+	Punkt poczatekF = {0, a, nullptr};
+	Punkt koniecF = {m_ykolumny - 1, b, nullptr};
 
 	std::cout << "Najkrotsza droga wynosi: " << temp << std::endl;
 	std::cout << "Poczatek: " << a << ", 0" << std::endl;
 	std::cout << "Koniec: " << b << ", " << m_ykolumny - 1 << std::endl;
-	std::vector<std::pair<int, int>> path = ZnajdzDroge(poczatekF,koniecF);
-	
-	if (path.size() > 0) {
-		std::cout << "The shortest path is "; 
+	std::vector<std::pair<int, int>> path = ZnajdzDroge(poczatekF, koniecF);
+
+	if (path.size() > 0)
+	{
+		std::cout << "The shortest path is ";
 		printPairs(path);
 	}
-	else {
+	else
+	{
 		std::cout << "Destination not possible";
 	}
-
 }
