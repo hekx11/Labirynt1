@@ -46,15 +46,15 @@ void Plansza::Pobieranie() //pobieranie z pliku
 		}
 	}
 	Ustaw(wymiary_planszy[0], wymiary_planszy[1]);
-	for (int i = 0; i < wymiary_planszy[1]; ++i)
+	for (int i = 0; i < m_ykolumny; ++i)
 	{
 		m_tablica[i] = wiersze[i + 1]; //usuniecie pierwszej linii array'a
-		for (int j = 0; j < m_ykolumny; ++j)
+		for (int j = 0; j < m_xkolumny; ++j)
 		{
 			if (m_tablica[i][j] == 'B')
-				mat[i][j] = 0;
-			else
 				mat[i][j] = 1;
+			else
+				mat[i][j] = 0;
 		}
 	}
 }
@@ -85,7 +85,7 @@ void Plansza::Window() //wyswietlanie okna
 				shape[i][j].setSize(sf::Vector2f(10, 10)); //rozmiar jednego kwadracika
 				if (m_tablica[j][i] == 'B')
 				{
-					shape[i][j].setFillColor(sf::Color(0, 0, 0, 255)); //kolor czarny kwadracika
+					shape[i][j].setFillColor(sf::Color(255, 255, 255, 255)); //kolor czarny kwadracika
 				}
 				else if (m_tablica[j][i] == 'D')
 				{
@@ -93,7 +93,7 @@ void Plansza::Window() //wyswietlanie okna
 				}
 				else
 				{
-					shape[i][j].setFillColor(sf::Color(255, 255, 255, 255)); //kolor bialy kwadracika
+					shape[i][j].setFillColor(sf::Color(0, 0, 0, 255)); //kolor bialy kwadracika
 				}
 
 				shape[i][j].setPosition(position_x, position_y); //ustawienie pozycji kwadracika
@@ -193,7 +193,7 @@ std::vector<std::pair<int, int>> Plansza::ZnajdzDroge(Punkt poczatek, Punkt koni
 }
 bool Plansza::Sprawdz(int wiersze, int kolumny)
 {
-	return (wiersze >= 0) && (wiersze < m_xkolumny) && (kolumny >= 0) && (kolumny < m_ykolumny);
+	return (wiersze >= 0) && (wiersze < m_ykolumny) && (kolumny >= 0) && (kolumny < m_xkolumny);
 }
 void Plansza::ZnajdzTrase(Punkt *punkt, std::vector<std::pair<int, int>> &droga)
 {
@@ -254,9 +254,9 @@ void Plansza::Trasa()
 {
 	int temp = 0, a = 0, b = 0;
 	int dist[260][260];
-	for (int i = 0; i < m_ykolumny; i++)
+	for (int i = 0; i < m_xkolumny; i++)
 	{
-		for (int j = 0; j < m_ykolumny; j++)
+		for (int j = 0; j < m_xkolumny; j++)
 		{
 			Punkt poczatek = {0, i, nullptr};
 			Punkt koniec = {m_ykolumny - 1, j, nullptr};
@@ -264,13 +264,15 @@ void Plansza::Trasa()
 			if (dist[i][j] != -1)
 			{
 				temp = dist[i][j];
+				a = i;
+				b = j;
 			}
 		}
 	}
 
-	for (int i = 0; i < m_ykolumny; i++)
+	for (int i = 0; i < m_xkolumny; i++)
 	{
-		for (int j = 0; j < m_ykolumny; j++)
+		for (int j = 0; j < m_xkolumny; j++)
 		{
 			if (dist[i][j] != -1)
 				if (dist[i][j] < temp)
@@ -279,8 +281,10 @@ void Plansza::Trasa()
 					a = i;
 					b = j;
 				}
+
 		}
 	}
+
 	Punkt poczatekF = {0, a, nullptr};
 	Punkt koniecF = {m_ykolumny - 1, b, nullptr};
 
