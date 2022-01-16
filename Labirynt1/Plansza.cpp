@@ -11,7 +11,8 @@ void Plansza::Ustaw(int x, int y) //ustawienie ilosci kwadracikow
 	m_xkolumny = x;
 	m_ykolumny = y;
 }
-void Plansza::Pobieranie() //pobieranie z pliku
+
+void Plansza::Pobieranie()
 {
 	std::ifstream file;
 	std::string wiersz;
@@ -60,7 +61,7 @@ void Plansza::Pobieranie() //pobieranie z pliku
 }
 void Plansza::Window() //wyswietlanie okna
 {
-	sf::RenderWindow window(sf::VideoMode(m_xkolumny*11, m_ykolumny*11), "Labirynt"); //okno 640x480
+	sf::RenderWindow window(sf::VideoMode(m_xkolumny * 11, m_ykolumny * 11), "Labirynt"); //okno 640x480
 	int n = m_xkolumny;
 	int m = m_ykolumny;
 	sf::RectangleShape **shape;
@@ -281,7 +282,6 @@ void Plansza::Trasa()
 					a = i;
 					b = j;
 				}
-
 		}
 	}
 
